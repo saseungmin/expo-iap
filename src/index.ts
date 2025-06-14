@@ -26,23 +26,7 @@ import {
 import {isProductIos} from './modules/ios';
 import {isProductAndroid} from './modules/android';
 
-export type {
-  AndroidPlatform,
-  ChangeEventPayload,
-  IosPlatform,
-  Product,
-  ProductBase,
-  ProductPurchase,
-  ProductType,
-  Purchase,
-  PurchaseBase,
-  PurchaseResult,
-  RequestPurchaseProps,
-  RequestSubscriptionProps,
-  SubscriptionProduct,
-  SubscriptionPurchase,
-} from './ExpoIap.types';
-export {ErrorCode, PurchaseError} from './ExpoIap.types';
+export * from './ExpoIap.types';
 export * from './modules/android';
 export * from './modules/ios';
 
