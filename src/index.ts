@@ -4,8 +4,16 @@ import {Platform} from 'react-native';
 
 // Internal modules
 import ExpoIapModule from './ExpoIapModule';
-import {isProductIos, validateReceiptIOS} from './modules/ios';
-import {isProductAndroid, validateReceiptAndroid} from './modules/android';
+import {
+  isProductIos,
+  validateReceiptIOS,
+  deepLinkToSubscriptionsIos,
+} from './modules/ios';
+import {
+  isProductAndroid,
+  validateReceiptAndroid,
+  deepLinkToSubscriptionsAndroid,
+} from './modules/android';
 
 // Types
 import {
@@ -692,6 +700,30 @@ export const validateReceipt = async (
   } else {
     throw new Error('Platform not supported');
   }
+};
+
+/**
+ * Deeplinks to native interface that allows users to manage their subscriptions
+ * @param {string} [sku] Required for Android to locate specific subscription
+ * @returns {Promise<void>}
+ */
+export const deepLinkToSubscriptions = ({
+  sku,
+}: {sku?: string} = {}): Promise<void> => {
+  if (Platform.OS === 'ios') {
+    return deepLinkToSubscriptionsIos();
+  }
+
+  if (Platform.OS === 'android') {
+    if (!sku) {
+      return Promise.reject(
+        new Error('SKU is required to locate subscription in Android Store'),
+      );
+    }
+    return deepLinkToSubscriptionsAndroid({sku});
+  }
+
+  return Promise.reject(new Error(`Unsupported platform: ${Platform.OS}`));
 };
 
 export * from './useIap';
